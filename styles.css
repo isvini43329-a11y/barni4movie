@@ -120,6 +120,25 @@ body {
     font-size: 1.2rem;
 }
 
+.save-project-btn {
+    background: var(--gradient-2);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+}
+
+.save-project-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
+}
+
 /* Hero Section */
 .hero {
     position: relative;
@@ -214,10 +233,62 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.back-btn,
+.add-episode-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.crumb-sep { color: var(--text-gray); }
+.current-folder { font-weight: 600; }
+.crumb-trail { display:flex; gap:0.5rem; align-items:center; color:var(--text-gray); }
+.crumb-trail .crumb { color:white; cursor:pointer; }
+.crumb-trail .sep { color:var(--text-gray); }
+.breadcrumbs .spacer { flex:1; }
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.folder-card .movie-thumbnail { height: 360px; }
+.folder-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--gradient);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+.list-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
 .movies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, 310px);
     gap: 2rem;
+    justify-content: center;
 }
 
 .movie-card {
@@ -228,6 +299,10 @@ body {
     cursor: pointer;
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 310px;
+    height: 503px;
+    display: flex;
+    flex-direction: column;
 }
 
 .movie-card:hover {
@@ -238,10 +313,11 @@ body {
 
 .movie-thumbnail {
     width: 100%;
-    height: 350px;
+    height: 360px;
     background: var(--gradient);
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .movie-thumbnail img {

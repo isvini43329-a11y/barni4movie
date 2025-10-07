@@ -20,15 +20,16 @@
                 <span class="logo-text">Barni<span class="highlight">4</span>Movie</span>
             </div>
             <div class="nav-links">
-                <a href="#" class="nav-link active">Home</a>
-                <a href="#" class="nav-link">Movies</a>
-                <a href="#" class="nav-link">Series</a>
-                <a href="#" class="nav-link">My List</a>
+                <a href="#" class="nav-link active" id="navHome">Home</a>
+                <a href="#" class="nav-link" id="navMovies">Movies</a>
+                <a href="#" class="nav-link" id="navSeries">Series</a>
+                <a href="#" class="nav-link" id="navMyList">My List</a>
             </div>
             <div class="search-box">
                 <input type="text" placeholder="Search movies..." id="searchInput">
                 <span class="search-icon">🔍</span>
             </div>
+            <button class="save-project-btn" id="saveProjectBtn" style="display:none;" title="Save Project">💾 Save Project</button>
         </div>
     </nav>
 
@@ -46,6 +47,13 @@
     <section class="movies-section">
         <div class="container">
             <h2 class="section-title">Featured Movies & Series</h2>
+            <div class="breadcrumbs" id="breadcrumbs" style="display:none;">
+                <button class="back-btn" id="backToRoot">◀ Back</button>
+                <div class="crumb-trail" id="crumbTrail"></div>
+                <span class="spacer"></span>
+                <button class="add-episode-btn" id="addSubfolderBtn" style="display:none;">+ Folder</button>
+                <button class="add-episode-btn" id="addEpisodeBtn" style="display:none;">+ Episode</button>
+            </div>
             
             <div class="movies-grid" id="moviesGrid">
                 <!-- Movies will be dynamically added here -->
@@ -120,6 +128,13 @@
             <h2>Add New Movie/Episode</h2>
             <form id="addMovieForm">
                 <div class="form-group">
+                    <label>Content Type</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="contentType" value="movie" checked> Full Movie</label>
+                        <label><input type="radio" name="contentType" value="series"> Series Folder</label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="movieTitle">Title</label>
                     <input type="text" id="movieTitle" required placeholder="e.g., From S01 EP08">
                 </div>
@@ -127,22 +142,24 @@
                     <label for="movieDescription">Description</label>
                     <textarea id="movieDescription" rows="3" placeholder="Brief description..."></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="movieUrl">Dropbox Direct Link</label>
-                    <input type="url" id="movieUrl" required placeholder="https://www.dropbox.com/...?dl=1">
-                    <small>Make sure the link ends with dl=1</small>
-                </div>
-                <div class="form-group">
-                    <label for="movieUrl1080">1080p Link (optional)</label>
-                    <input type="url" id="movieUrl1080" placeholder="https://www.dropbox.com/...?dl=1">
-                </div>
-                <div class="form-group">
-                    <label for="movieUrl720">720p Link (optional)</label>
-                    <input type="url" id="movieUrl720" placeholder="https://www.dropbox.com/...?dl=1">
-                </div>
-                <div class="form-group">
-                    <label for="movieUrl480">480p Link (optional)</label>
-                    <input type="url" id="movieUrl480" placeholder="https://www.dropbox.com/...?dl=1">
+                <div id="movieUrlFields">
+                    <div class="form-group">
+                        <label for="movieUrl">Dropbox Direct Link</label>
+                        <input type="url" id="movieUrl" placeholder="https://www.dropbox.com/...?dl=1">
+                        <small>Make sure the link ends with dl=1</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="movieUrl1080">1080p Link (optional)</label>
+                        <input type="url" id="movieUrl1080" placeholder="https://www.dropbox.com/...?dl=1">
+                    </div>
+                    <div class="form-group">
+                        <label for="movieUrl720">720p Link (optional)</label>
+                        <input type="url" id="movieUrl720" placeholder="https://www.dropbox.com/...?dl=1">
+                    </div>
+                    <div class="form-group">
+                        <label for="movieUrl480">480p Link (optional)</label>
+                        <input type="url" id="movieUrl480" placeholder="https://www.dropbox.com/...?dl=1">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="movieThumbnail">Thumbnail URL (optional)</label>
@@ -166,6 +183,69 @@
 
     <!-- Floating Add Button -->
     <button class="floating-add-btn" id="floatingAddBtn" title="Add Movie">+</button>
+
+    <!-- Add Episode Modal -->
+    <div id="addEpisodeModal" class="modal">
+        <div class="modal-content add-movie-modal">
+            <button class="close-btn" id="closeAddEpisodeBtn">&times;</button>
+            <h2>Add Episode</h2>
+            <form id="addEpisodeForm">
+                <div class="form-group">
+                    <label for="episodeTitle">Episode Title</label>
+                    <input type="text" id="episodeTitle" required placeholder="e.g., S01E01 - Pilot">
+                </div>
+                <div class="form-group">
+                    <label for="episodeDescription">Description</label>
+                    <textarea id="episodeDescription" rows="3" placeholder="Brief description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="episodeUrl">Dropbox Direct Link</label>
+                    <input type="url" id="episodeUrl" required placeholder="https://www.dropbox.com/...?dl=1">
+                    <small>Make sure the link ends with dl=1</small>
+                </div>
+                <div class="form-group">
+                    <label for="episodeUrl1080">1080p Link (optional)</label>
+                    <input type="url" id="episodeUrl1080" placeholder="https://www.dropbox.com/...?dl=1">
+                </div>
+                <div class="form-group">
+                    <label for="episodeUrl720">720p Link (optional)</label>
+                    <input type="url" id="episodeUrl720" placeholder="https://www.dropbox.com/...?dl=1">
+                </div>
+                <div class="form-group">
+                    <label for="episodeUrl480">480p Link (optional)</label>
+                    <input type="url" id="episodeUrl480" placeholder="https://www.dropbox.com/...?dl=1">
+                </div>
+                <div class="form-group">
+                    <label for="episodeThumbnail">Thumbnail URL (optional)</label>
+                    <input type="url" id="episodeThumbnail" placeholder="https://...">
+                </div>
+                <button type="submit" class="submit-btn">Add Episode</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Item Modal -->
+    <div id="editItemModal" class="modal">
+        <div class="modal-content add-movie-modal">
+            <button class="close-btn" id="closeEditItemBtn">&times;</button>
+            <h2>Edit Item</h2>
+            <form id="editItemForm">
+                <div class="form-group">
+                    <label for="editTitle">Title</label>
+                    <input type="text" id="editTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Description</label>
+                    <textarea id="editDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editThumbnail">Thumbnail URL</label>
+                    <input type="url" id="editThumbnail" placeholder="https://...">
+                </div>
+                <button type="submit" class="submit-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
